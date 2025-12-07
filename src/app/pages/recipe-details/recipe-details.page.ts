@@ -18,3 +18,4 @@ export class RecipeDetailsPage implements OnInit {
   }
 
 }
+
