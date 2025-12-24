@@ -1,10 +1,34 @@
-<ion-content>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Recipe Finder</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-item>
+    <ion-input
+      placeholder="Enter ingredients (comma separated)"
+      [(ngModel)]="searchQuery">
+    </ion-input>
+  </ion-item>
+
+  <ion-button expand="full" (click)="searchRecipes()">
+    Search
+  </ion-button>
+
   <ion-list>
     <ion-item *ngFor="let recipe of recipes">
       <ion-thumbnail slot="start">
-        <img [src]="recipe.image" />
+        <img [src]="recipe.image">
       </ion-thumbnail>
-      <ion-label>{{ recipe.title }}, {{ recipe.id}}</ion-label>
+      <ion-label>
+        {{ recipe.title }}
+      </ion-label>
+      <ion-button slot="end" [routerLink]="['/recipe-details', recipe.id]">
+        Details
+      </ion-button>
     </ion-item>
   </ion-list>
+
 </ion-content>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+
 import { 
   IonContent, 
   IonHeader, 
@@ -9,24 +11,37 @@ import {
   IonList, 
   IonItem, 
   IonLabel, 
-  IonThumbnail 
+  IonThumbnail,
+  IonButton,
+  IonInput
+  
+  
 } from '@ionic/angular/standalone';
-
+import { RecipeService} from '../../services/recipe.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonItem, IonLabel, IonThumbnail, CommonModule, FormsModule]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonItem, IonInput,IonButton, IonLabel, IonThumbnail, CommonModule, FormsModule,  RouterLink]
 })
 export class HomePage implements OnInit {
 
-  recipes = [
-    { id: 1, title: 'Pasta Carbonara', image: 'https://via.placeholder.com/150' },
-    { id: 2, title: 'Chicken Curry', image: 'https://via.placeholder.com/150' }
-  ];
+ searchQuery ='';
+ recipes: any[]=[];
 
-  constructor() { }
+  constructor(private recipeService: RecipeService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+//loads default data
+    this.recipes = [];
+  }
+
+  searchRecipes(){
+    if (!this.searchQuery.trim()) return;
+    this.recipeService.searchRecipes(this.searchQuery)
+    .subscribe(response=>{
+      this.recipes = response.results;
+    });
+  }
 }
