@@ -27,21 +27,34 @@ import { RecipeService} from '../../services/recipe.service';
 })
 export class HomePage implements OnInit {
 
- searchQuery ='';
- recipes: any[]=[];
+  searchQuery = '';
+  recipes: any[] = [];
+
+  featuredRecipe: any = null;
+  otherRecipes: any[] = [];
 
   constructor(private recipeService: RecipeService) { }
 
-  ngOnInit() {
-//loads default data
+  ngOnInit(): void {
+    // loads default data
     this.recipes = [];
   }
 
-  searchRecipes(){
-    if (!this.searchQuery.trim()) return;
+  searchRecipes() {
+    if (!this.searchQuery.trim()) {
+      return;
+    }
+
     this.recipeService.searchRecipes(this.searchQuery)
-    .subscribe(response=>{
-      this.recipes = response.results;
-    });
+      .subscribe((response: any) => {
+        if (response.results.length > 0) {
+          this.featuredRecipe = response.results[0];
+          this.otherRecipes = response.results.slice(1);
+        } else {
+          this.featuredRecipe = null;
+          this.otherRecipes = [];
+        }
+      });
   }
 }
+
