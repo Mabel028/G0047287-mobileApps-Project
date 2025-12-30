@@ -19,9 +19,18 @@ export class RecipeService {
     );
   }
 
-  getRecipeDetails(id: number): Observable<RecipeDetails> {
-    return this.http.get<RecipeDetails>(
-      `${this.baseUrl}/${id}/information?apiKey=${this.apiKey}`
-    );
-  }
+ getRecipeDetails(id: number) {
+  const unit = localStorage.getItem('unit') || 'metric';
+
+  return this.http.get(
+    `${this.baseUrl}/${id}/information`,
+    {
+      params: {
+        apiKey: this.apiKey,
+        units: unit
+      }
+    }
+  );
+}
+
 }

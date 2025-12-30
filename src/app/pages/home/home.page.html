@@ -1,15 +1,26 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>G00472873</ion-title>
+    <ion-buttons slot="end">
+
+       <!-- Favourites (Heart Icon) -->
+      <ion-button routerLink="/favourites">
+        <ion-icon name="heart-outline" color="primary"></ion-icon>
+      </ion-button>
+
+       <!-- Settings (Cog Icon) -->
+      <ion-button routerLink="/settings">
+        <ion-icon name="settings-outline"></ion-icon>
+      </ion-button>
+
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
 
   <ion-item>
-    <ion-label class="one-line-label" position="floating">
-      <strong>Enter Ingredients</strong>
-    </ion-label>
+    <ion-label position="floating">Enter Ingredients</ion-label>
     <ion-input [(ngModel)]="searchQuery"></ion-input>
   </ion-item>
 
@@ -17,24 +28,16 @@
     Search
   </ion-button>
 
-  <!-- Featured Recipe -->
-  <div *ngIf="featuredRecipe" class="featured-recipe">
-    <img [src]="featuredRecipe.image" width="65%" />
-    <h2>{{ featuredRecipe.title }}</h2>
-    <ion-button [routerLink]="['/recipe-details', featuredRecipe.id]">
-      View Details
-    </ion-button>
-  </div>
-
-  <!-- Other Recipes -->
-  <ion-list *ngIf="otherRecipes.length > 0">
-    <ion-item *ngFor="let recipe of otherRecipes">
+  <ion-list *ngIf="recipes.length > 0">
+    <ion-item *ngFor="let recipe of recipes">
       <ion-thumbnail slot="start">
         <img [src]="recipe.image">
       </ion-thumbnail>
+
       <ion-label>
         {{ recipe.title }}
       </ion-label>
+
       <ion-button slot="end" [routerLink]="['/recipe-details', recipe.id]">
         Details
       </ion-button>

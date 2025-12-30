@@ -1,23 +1,42 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{ recipe?.title }}</ion-title>
+    <ion-title>Recipe Details</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding" *ngIf="recipe">
 
-  <img [src]="recipe.image" width="100%" />
+  <img [src]="recipe.image" width="50%" />
+  <h2>{{ recipe.title }}</h2>
 
-  <h2>Ingredients</h2>
-  <ul>
-    <li *ngFor="let ingredient of recipe.extendedIngredients">
-      {{ ingredient.original }}
+  <h3>Ingredients</h3>
+  <ion-list>
+    <li *ngFor="let ing of displayIngredients">
+  {{ ing.displayAmount }} – {{ ing.name }}
     </li>
-  </ul>
 
-  <h2>Instructions</h2>
-  <div *ngFor="let step of recipe.analyzedInstructions[0]?.steps">
-    <p>{{ step.number }}. {{ step.step }}</p>
+  </ion-list>
+
+  <h3>Instructions</h3>
+  <div *ngIf="recipe.analyzedInstructions?.length">
+    <p *ngFor="let step of recipe.analyzedInstructions[0].steps">
+      {{ step.number }}. {{ step.step }}
+    </p>
   </div>
+
+    <ion-button 
+    class="favourite-btn" 
+    (click)="toggleFavourite()"
+    [ngClass]="{ 'added': isFavourite, 'removed': !isFavourite }">
+
+    <ion-icon 
+      slot="start" 
+      [name]="'heart'" 
+      [ngClass]="{ 'heart-added': isFavourite, 'heart-removed': !isFavourite }">
+    </ion-icon>
+
+    {{ isFavourite ? 'Remove from Favourites' : 'Add to Favourites' }}
+  </ion-button>
+
 
 </ion-content>

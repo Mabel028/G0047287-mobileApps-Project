@@ -11,9 +11,11 @@ import {
   IonList, 
   IonItem, 
   IonLabel, 
+  IonIcon,
   IonThumbnail,
   IonButton,
-  IonInput
+  IonInput,
+  IonButtons
   
   
 } from '@ionic/angular/standalone';
@@ -23,22 +25,16 @@ import { RecipeService} from '../../services/recipe.service';
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonItem, IonInput,IonButton, IonLabel, IonThumbnail, CommonModule, FormsModule,  RouterLink]
+  imports: [IonContent, IonHeader, IonTitle, IonIcon,IonToolbar, IonList, IonItem, IonButtons, IonInput,IonButton, IonLabel, IonThumbnail, CommonModule, FormsModule,  RouterLink]
 })
 export class HomePage implements OnInit {
 
   searchQuery = '';
   recipes: any[] = [];
 
-  featuredRecipe: any = null;
-  otherRecipes: any[] = [];
+  constructor(private recipeService: RecipeService) {}
 
-  constructor(private recipeService: RecipeService) { }
-
-  ngOnInit(): void {
-    // loads default data
-    this.recipes = [];
-  }
+  ngOnInit(): void {}
 
   searchRecipes() {
     if (!this.searchQuery.trim()) {
@@ -47,14 +43,9 @@ export class HomePage implements OnInit {
 
     this.recipeService.searchRecipes(this.searchQuery)
       .subscribe((response: any) => {
-        if (response.results.length > 0) {
-          this.featuredRecipe = response.results[0];
-          this.otherRecipes = response.results.slice(1);
-        } else {
-          this.featuredRecipe = null;
-          this.otherRecipes = [];
-        }
+        this.recipes = response.results;
       });
   }
 }
+
 
