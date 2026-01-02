@@ -24,19 +24,27 @@
     </p>
   </div>
 
-    <ion-button 
-    class="favourite-btn" 
-    (click)="toggleFavourite()"
-    [ngClass]="{ 'added': isFavourite, 'removed': !isFavourite }">
 
-    <ion-icon 
-      slot="start" 
-      [name]="'heart'" 
-      [ngClass]="{ 'heart-added': isFavourite, 'heart-removed': !isFavourite }">
-    </ion-icon>
 
-    {{ isFavourite ? 'Remove from Favourites' : 'Add to Favourites' }}
-  </ion-button>
+  <!-- favourite button style -->
+
+   <ion-button
+  [fill]="isFavourite ? 'solid' : 'outline'"
+  color="primary"
+  (click)="toggleFavourite()"
+>
+
+  <ion-icon
+    slot="start"
+    [name]="isFavourite ? 'heart-outline' : 'heart' "
+    >
+  </ion-icon>
+
+  {{ isFavourite ? 'Remove from Favourites' : 'Add to Favourites' }}
+
+</ion-button>
+
+
 
 
 </ion-content>
