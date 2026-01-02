@@ -5,7 +5,7 @@
 
        <!-- Favourites (Heart Icon) -->
       <ion-button routerLink="/favourites">
-        <ion-icon name="heart-outline" color="primary"></ion-icon>
+        <ion-icon name="heart-outline"  color="primary"></ion-icon>
       </ion-button>
 
        <!-- Settings (Cog Icon) -->
@@ -27,6 +27,8 @@
   <ion-button expand="full" (click)="searchRecipes()">
     Search
   </ion-button>
+
+  <ion-spinner *ngIf="isLoading" class="ion-margin"></ion-spinner>
 
   <ion-list *ngIf="recipes.length > 0">
     <ion-item *ngFor="let recipe of recipes">

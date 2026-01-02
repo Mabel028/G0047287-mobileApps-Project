@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonIcon,IonList, IonItem, IonLabel,  } from '@ionic/angular/standalone';
 import { ActivatedRoute } from '@angular/router';
 import { RecipeService } from '../../services/recipe.service';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-recipe-details',
@@ -24,7 +25,8 @@ export class RecipeDetailsPage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private recipeService: RecipeService
+    private recipeService: RecipeService,
+    private toastCtrl: ToastController
   ) {}
 
   ngOnInit(): void {
@@ -63,6 +65,7 @@ export class RecipeDetailsPage implements OnInit {
       const index = favs.indexOf(this.recipe.id);
       if (index > -1) favs.splice(index, 1);
       this.isFavourite = false;
+      this.showToast('Removed from favourites');
     } else {
       // Add to favourites
       favs.push({id: this.recipe.id,
@@ -70,6 +73,7 @@ export class RecipeDetailsPage implements OnInit {
       image: this.recipe.image});
 
       this.isFavourite = true;
+      this.showToast('Added to favourites ❤️');
     }
     localStorage.setItem('favourites', JSON.stringify(favs));
   }
@@ -97,5 +101,15 @@ export class RecipeDetailsPage implements OnInit {
   });
 }
 
+
+async showToast(message: string) {
+  const toast = await this.toastCtrl.create({
+    message,
+    duration: 2000,
+    position: 'bottom',
+    color: 'primary'
+  });
+  await toast.present();
+}
 
 }
